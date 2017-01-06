@@ -76,6 +76,8 @@ instance Struct GDeviceClass where
              XIButtonClass   -> peekButtonClass ptr
              XIKeyClass      -> peekKeyClass ptr
              XIValuatorClass -> peekValuatorClass ptr
+             XIScrollClass   -> peekScrollClass ptr
+             XITouchClass    -> peekTouchClass ptr
     return $ GDeviceClass tp (fromIntegral src) cls
 
 instance Struct ButtonState where
@@ -110,6 +112,18 @@ peekValuatorClass ptr = ValuatorClass
   <*> (realToFrac <$> {# get XIValuatorClassInfo->value #} ptr)
   <*> (fromIntegral <$> {# get XIValuatorClassInfo->resolution #} ptr)
   <*> (fromIntegral <$> {# get XIValuatorClassInfo->mode #} ptr)
+
+peekScrollClass :: GDeviceClassPtr -> IO DeviceClass
+peekScrollClass ptr = ScrollClass
+  <$> (fromIntegral <$> {# get XIScrollClassInfo->number #} ptr)
+  <*> (fromIntegral <$> {# get XIScrollClassInfo->scroll_type #} ptr)
+  <*> (realToFrac   <$> {# get XIScrollClassInfo->increment #} ptr)
+  <*> (fromIntegral <$> {# get XIScrollClassInfo->flags #} ptr)
+
+peekTouchClass :: GDeviceClassPtr -> IO DeviceClass
+peekTouchClass ptr = TouchClass
+  <$> (fromIntegral <$> {# get XITouchClassInfo->mode #} ptr)
+  <*> (fromIntegral <$> {# get XITouchClassInfo->num_touches #} ptr)
 
 instance Struct Int where
   type Pointer Int = Ptr CInt

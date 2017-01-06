@@ -309,6 +309,16 @@ data DeviceClass =
     , dcResolution :: Int
     , dcMode       :: Int
     }
+  | ScrollClass {
+      dcNumber     :: Int
+    , dcScrollType :: Int
+    , dcIncrement  :: Double
+    , dcFlags      :: Int
+    }
+  | TouchClass {
+      dcMode       :: Int
+    , dcNumTouches :: Int
+    }
   deriving (Eq)
 
 instance Show DeviceClass where
@@ -316,6 +326,11 @@ instance Show DeviceClass where
   show (KeyClass n _) = printf "%s keycodes" (show n)
   show (ValuatorClass _ _ min max _ _ _) =
       printf "%.2f..%.2f" min max
+  show (ScrollClass _ tp inc flags)  =
+      printf "%d: %.2f as %x" tp inc flags
+  show (TouchClass mode touches) =
+      printf "%x: %d" mode touches
+
 
 data SelectDevices =
     XIAllDevices

@@ -1,8 +1,8 @@
 name:                x11-xinput
-version:             0.1.0.1
+version:             0.1.0.2
 synopsis:            Haskell FFI bindings for X11 XInput library (-lXi) (fork)
 description:         Haskell FFI bindings for X11 XInput library (-lXi). (fork)
-                     Only XInput version 2.0 is supported.
+                     Only XInput version 2.0 is supported.  (2.1 is partially supported)
                      See XInput manual pages and XInput2.h, XI2.h for more documentation.
 homepage:            https://github.com/cytb/x11-xinput
 license:             BSD3
