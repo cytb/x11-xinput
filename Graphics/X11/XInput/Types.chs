@@ -9,6 +9,8 @@ module Graphics.X11.XInput.Types where
 
 import Control.Applicative
 import Control.Monad
+import Data.Tuple
+import Data.Maybe
 import qualified Data.Map as M
 import Data.Bits
 import Foreign.C
@@ -234,7 +236,21 @@ data DeviceClassType =
     XIKeyClass
   | XIButtonClass
   | XIValuatorClass
-  deriving (Eq, Show, Ord, Enum)
+  | XIScrollClass
+  | XITouchClass
+  deriving (Eq, Show, Ord)
+
+instance Enum DeviceClassType where
+    fromEnum = fromJust . flip lookup enumTableDeviceClassType
+    toEnum   = fromJust . flip lookup (map swap enumTableDeviceClassType)
+
+enumTableDeviceClassType = [
+      (XIKeyClass, 0)
+    , (XIButtonClass, 1)
+    , (XIValuatorClass, 2)
+    , (XIScrollClass, 3)
+    , (XITouchClass, 8)
+    ]
 
 -- | Any device class
 data GDeviceClass = GDeviceClass {
